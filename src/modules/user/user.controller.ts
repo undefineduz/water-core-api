@@ -1,42 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ActiveUserData } from 'src/common/interfaces';
-import { ActiveUser } from 'src/common/decorators';
+import { ActiveUserData, IPagination } from 'src/common/interfaces';
+import { ActiveUser, GetPagination } from 'src/common/decorators';
+import { ContractStatusDto } from './dto/contract-status.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Get('profile')
-  getProfile(@ActiveUser() user: ActiveUserData){
-    return this.userService.getProfile(user);  
+  getProfile(@ActiveUser() user: ActiveUserData) {
+    return this.userService.getProfile(user);
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @Get('contracts')
+  getContracts(@ActiveUser() user: ActiveUserData, @GetPagination() pagination: IPagination) {
+    return this.userService.getContracts(user, pagination);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Post('contracts/status')
+  setContractStatusByUserId(@ActiveUser() user: ActiveUserData, @Body() contractStatusDto: ContractStatusDto) {
+    return this.userService.setContractStatusByUserId(user, contractStatusDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Get('voted/contracts')
+  getVotedContracts(@ActiveUser() user: ActiveUserData, @GetPagination() pagination: IPagination) {
+    return this.userService.getVotedContracts(user, pagination);
   }
 }
 

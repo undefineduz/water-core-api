@@ -1,38 +1,21 @@
-import { createParamDecorator, ExecutionContext, UnsupportedMediaTypeException } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext, UnprocessableEntityException } from "@nestjs/common";
 import { IPagination } from "../interfaces";
+import { isObject } from "class-validator";
 
 export const GetPagination = createParamDecorator((data, ctx: ExecutionContext): IPagination => {
     const request = ctx.switchToHttp().getRequest();
 
-    const paginationParams: IPagination = {
-        skip: 0,
-        limit: 10,
-        sort: [],
-        search: []
-    };
+    // Destructuring with default values
+    const { skip = '0', limit = '10', sort, search } = request.query;
 
-    paginationParams.skip = request.query.skip ? parseInt(request.query.skip.toString()) : 0;
-    paginationParams.limit = request.query.limit ? parseInt(request.query.limit.toString()) : 10;
+    // Parse skip and limit to integers
+    const parsedSkip = parseInt(skip, 10);
+    const parsedLimit = parseInt(limit, 10);
 
-
-    if (request.query.sort) {
-        const sortFields = request.query.sort.toString().split(',');
-        paginationParams.sort = sortFields?.map((sortField: string) => {
-            const [field, by] = sortField.split(':');
-            if (by !== 'DESC' && by !== 'ASC') {
-                throw new UnsupportedMediaTypeException('Invalid sort by value');
-            }
-            return { field, by };
-        });
+    if (isNaN(parsedSkip) || parsedSkip < 0 || isNaN(parsedLimit) || parsedLimit <= 0 || (sort && !isObject(sort)) || (search && !isObject(search))) {
+        throw new UnprocessableEntityException('Invalid query');
     }
 
-    if (request.query.search) {
-        const searchFields = request.query.search.toString().split(',');
-        paginationParams.search = searchFields.map((searchField: string) => {
-            const [field, value] = searchField.split(':');
-            return { field, value };
-        });
-    }
-
-    return paginationParams;
+    return { skip: parsedSkip, limit: parsedLimit, sort, search };
 });
+

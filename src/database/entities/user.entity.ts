@@ -1,12 +1,13 @@
 import { Exclude } from "class-transformer";
 import { GenderType, Role } from "src/common/enums";
-import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Contract } from "./contracts.entity";
+import { ContractsUserUsers } from "./contracts-user-users.entity";
 
 @Entity('users')
 @Index(["firstName", "lastName"])
 @Index(["firstName", "middleName", "lastName"], { unique: true })
-export class User {
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -58,10 +59,11 @@ export class User {
     })
     public role: Role;
 
-    @OneToMany(type => Contract, contract => contract.id)
+    @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user, { eager: true })
     public contracts: Contract[];
 
     @CreateDateColumn()
     public createdAt: Date;
+
 
 }

@@ -32,21 +32,26 @@ export class UsersRepository extends Repository<User> {
 
     public async getAll({ limit, search, skip, sort }: IPagination) {
         try {
-            const where = search.map((searchField) => {
-                return { [searchField.field]: searchField.value };
-            });
 
-            const [data, count] = await this.createQueryBuilder('user')
-                .where(where)
+            const where = search && Object.keys(search).map(key => `${key} LIKE '%${search[key]}%'`).join(' AND ');
+
+
+            const qb = this.createQueryBuilder('user')
                 .limit(limit)
                 .skip(skip)
+                .orderBy(sort)
+
+            if (where) {
+                qb.where(where);
+            }
+            const [data, count] = await qb
                 .getManyAndCount();
             return { data, count };
         } catch (error) {
+            console.error(error);
             if (error instanceof EntityPropertyNotFoundError) {
                 throw new UnprocessableEntityException(error.message);
             };
-
             throw new InternalServerErrorException();
         }
     }

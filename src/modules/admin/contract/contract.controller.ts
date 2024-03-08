@@ -17,7 +17,7 @@ export class ContractController {
 
   @Get()
   findAll(@GetPagination() pagination: IPagination) {
-    return this.contractService.findAll();
+    return this.contractService.findAll(pagination);
   }
 
   @Get(':id')

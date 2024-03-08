@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LocalFile } from "./file.entity";
 import { User } from "./user.entity";
 
@@ -22,8 +22,6 @@ export class Contract {
     @Column({ nullable: true })
     public fileId?: number;
 
-    @ManyToMany(() => User, (user) => user.contracts)
-    @JoinTable()
-    public user: User;
-
-}
+    @CreateDateColumn()
+    public createdAt: Date;
+} 

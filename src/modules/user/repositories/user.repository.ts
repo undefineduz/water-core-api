@@ -37,4 +37,14 @@ export class UserRepository extends Repository<User> {
             where: { id }
         });
     }
+
+    public async getContracts(UserId: number): Promise<User> {
+        const user = await this.findOne({
+            where: { id: UserId },
+            relations: {
+                contracts: true
+            }
+        });
+        return user;
+    }
 }

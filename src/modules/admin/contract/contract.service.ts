@@ -23,7 +23,7 @@ export class ContractService {
   }
 
   public async findAll(pagination: IPagination) {
-    return `This action returns all contract`;
+    return await this.contractRepository.getAllWithPagination(pagination);
   }
 
   findOne(id: number) {

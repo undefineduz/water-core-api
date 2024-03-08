@@ -1,8 +1,9 @@
 import * as path from 'path';
 import * as NestConfig from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DataSourceOptions } from 'typeorm';
 
-export const DatabseConfig = NestConfig.registerAs('database', (): TypeOrmModuleOptions => ({
+export const DatabseConfig = NestConfig.registerAs('database', (): TypeOrmModuleOptions | DataSourceOptions => ({
     type: 'mysql',
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT) || 3306,

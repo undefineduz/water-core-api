@@ -2,9 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import * as compression from 'compression';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 
+
 import { AppModule } from './app.module';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import { ServerConfig } from './common/configs';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +22,8 @@ async function bootstrap() {
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     })
   );
+
+  // useContainer(AppModule, { fallback: true });
 
   const config = app.get(ConfigService);
   const server = config.get<ConfigType<typeof ServerConfig>>('server');

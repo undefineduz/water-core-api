@@ -7,8 +7,4 @@ export class CreateContractDto {
 
     @IsNumber()
     public fileId: number;
-
-    @IsArray()
-    @IsNumber({}, { each: true })
-    public userId: number[];
 }

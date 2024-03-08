@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IPagination } from 'src/common/interfaces';
 import { Contract } from 'src/database/entities';
 import { DataSource, Repository } from 'typeorm';
@@ -9,11 +9,7 @@ export class ContractRepository extends Repository<Contract> {
         super(Contract, dataSource.createEntityManager());
     }
 
-    public async getById(id: number): Promise<Contract> {
-        return await this.findOneBy({ id });
-    }
-
-    public async getAllWithPagination({ limit, skip, sort, search }: IPagination) {
+    public async getAllWithPagination(userId: number, { limit, skip, sort, search }: IPagination) {
         const contractQb = this.createQueryBuilder('contract')
             .innerJoinAndSelect('contract.file', 'file')
             .select("contract.id", "id")
@@ -36,5 +32,12 @@ export class ContractRepository extends Repository<Contract> {
 
     }
 
+    public async isExist(contractId: number): Promise<Contract | false> {
+        const contract = await this.findOneBy({ id: contractId });
+        if (!contract) {
+            return false;
+        }
+        return contract;
+    }
 
 }
