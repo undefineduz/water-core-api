@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { States } from "./state.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Regions {
@@ -14,4 +15,7 @@ export class Regions {
 
     @Column({ unique: true })
     name: string;
+
+    @OneToMany(type => User, user => user.region)
+    public users: User[];
 }

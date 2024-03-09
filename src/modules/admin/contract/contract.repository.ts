@@ -20,6 +20,7 @@ export class ContractRepository extends Repository<Contract> {
             .addSelect("contract.title", "title")
             .addSelect("contract.fileId", "fileId")
             .addSelect("CONCAT('http://localhost:3000/', file.filename)", "file")
+            .addSelect("contract.createdAt", "createdAt")
         if (search) {
             contractQb.where('contract.title like :search', { search: `%${search}%` });
         }

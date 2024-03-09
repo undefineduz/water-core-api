@@ -17,6 +17,7 @@ export class ContractRepository extends Repository<Contract> {
                 .addSelect("contract.title", "title")
                 .addSelect("contract.fileId", "fileId")
                 .addSelect("CONCAT('http://localhost:3000/', file.filename)", "file")
+                .addSelect("contract.createdAt", "createdAt")
                 .where("contract.id NOT IN " +
                     "(SELECT contractId FROM contracts_user_users WHERE userId = :userId)", { userId })
 

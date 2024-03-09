@@ -33,4 +33,7 @@ export class CreateUserDto {
     @IsEnum(GenderType)
     public gender: GenderType;
 
+    @IsNumber()
+    public regionId: number;
+
 }

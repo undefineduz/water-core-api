@@ -20,6 +20,7 @@ export class ContractUserUsersRepository extends Repository<ContractsUserUsers> 
                 .addSelect("contract.fileId", "fileId")
                 .addSelect("CONCAT('http://localhost:3000/', file.filename)", "file")
                 .addSelect("contractsUserUsers.status", "status")
+                .addSelect("contract.createdAt", "createdAt")
                 .where('contractsUserUsers.userId = :userId', { userId })
 
 

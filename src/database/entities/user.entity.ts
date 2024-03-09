@@ -1,9 +1,10 @@
 import { Exclude } from "class-transformer";
 import { GenderType, Role } from "src/common/enums";
-import { BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Contract } from "./contracts.entity";
 import { ContractsUserUsers } from "./contracts-user-users.entity";
 import { Sensor } from "./sensor.entity";
+import { Regions } from "./region.entity";
 
 @Entity('users')
 @Index(["firstName", "lastName"])
@@ -37,10 +38,10 @@ export class User extends BaseEntity {
     })
     public username: string;
 
-    @Column()
+    @Column({ nullable: true })
     public latitude: string;
 
-    @Column()
+    @Column({ nullable: true })
     public longitude: string;
 
     @Column()
@@ -60,10 +61,16 @@ export class User extends BaseEntity {
     })
     public role: Role;
 
-    @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user, { eager: true })
+    @ManyToOne(() => Regions, region => region.users)
+    public region: Regions;
+
+    @Column()
+    public regionId: number;
+
+    @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user)
     public contracts: Contract[];
 
-    @OneToMany(() => Sensor, sensor => sensor.user, { eager: true })
+    @OneToMany(() => Sensor, sensor => sensor.user)
     public sensors: Sensor[];
 
     @CreateDateColumn()

@@ -30,7 +30,7 @@ export class UsersRepository extends Repository<User> {
         return await this.findOneByOrFail({ id });
     }
 
-    public async getAll({ limit, search, skip, sort }: IPagination) {
+    public async getAll({ limit, search, skip, sort, regionId }: IPagination | any) {
         try {
 
             const where = search && Object.keys(search).map(key => `${key} LIKE '%${search[key]}%'`).join(' AND ');
@@ -44,6 +44,10 @@ export class UsersRepository extends Repository<User> {
             if (where) {
                 qb.where(where);
             }
+            if (regionId) {
+                qb.andWhere('regionId = :regionId', { regionId });
+            }
+
             const [data, count] = await qb
                 .getManyAndCount();
             return { data, count };

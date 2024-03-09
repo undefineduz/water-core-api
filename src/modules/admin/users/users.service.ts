@@ -32,7 +32,7 @@ export class UsersService {
     }
   }
 
-  public async getAll(pagination: IPagination) {
+  public async getAll(pagination) {
     return await this.usersRepository.getAll(pagination);
   }
 

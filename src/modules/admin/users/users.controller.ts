@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { GetPagination } from 'src/common/decorators/get-pagination';
 import { IPagination } from 'src/common/interfaces';
@@ -20,8 +20,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@GetPagination() pagination: IPagination) {
-    return this.usersService.getAll(pagination);
+  findAll(@Query('regionId') regionId: number, @GetPagination() pagination: IPagination) {
+    return this.usersService.getAll({ ...pagination, regionId });
   }
 
   @Patch(':id')
