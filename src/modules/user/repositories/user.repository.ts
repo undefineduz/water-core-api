@@ -12,7 +12,7 @@ export class UserRepository extends Repository<User> {
 
     public async getByUsername(username: string): Promise<User> {
         return await this.createQueryBuilder('user')
-            .select(['user.id', 'user.username', 'user.password'])
+            .select(['user.id', 'user.username', 'user.password', 'user.role'])
             .where('user.username = :username', { username })
             .getOne();
     }
