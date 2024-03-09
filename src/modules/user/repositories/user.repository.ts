@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IPagination } from 'src/common/interfaces';
 import { User } from 'src/database/entities';
 import { DataSource, Repository } from 'typeorm';
 
@@ -46,5 +47,31 @@ export class UserRepository extends Repository<User> {
             }
         });
         return user;
+    }
+
+    public async getSensors(userId: number, { limit, skip, sort, search }: IPagination) {
+        const contractQb = this.createQueryBuilder('user')
+            .innerJoinAndSelect('user.sensors', 'sensor')
+            .select("sensor.id", "id")
+            .addSelect("sensor.imei", "imei")
+            .addSelect("sensor.name", "name")
+            .where('user.id = :userId', { userId: userId });
+
+        if (search) {
+            const where = search && Object.keys(search).map(key => `${key} LIKE '%${search[key]}%'`).join(' AND ');
+            contractQb.andWhere(where);
+        }
+
+        if (sort) {
+            contractQb.orderBy(sort)
+        }
+        contractQb
+            .skip(skip)
+            .take(limit);
+
+        const data = await contractQb.getRawMany();
+        const count = await contractQb.getCount();
+
+        return { data, count };
     }
 }

@@ -10,4 +10,4 @@ import { ClientModule } from './client/client.module';
 @Module({
   imports: [UserModule, AuthModule, HashingModule, TokenModule, AdminModule, ContractModule, ClientModule]
 })
-export class ModulesModule {}
+export class ModulesModule { }

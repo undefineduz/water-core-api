@@ -46,4 +46,8 @@ export class ContractUserUsersRepository extends Repository<ContractsUserUsers> 
         }
     }
 
+    public async getSensors(userId: number, { limit, skip, sort, search }: IPagination) {
+        const contractQb = this.createQueryBuilder('contractsUserUsers')
+    }
+
 }

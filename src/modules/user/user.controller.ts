@@ -29,5 +29,10 @@ export class UserController {
   getVotedContracts(@ActiveUser() user: ActiveUserData, @GetPagination() pagination: IPagination) {
     return this.userService.getVotedContracts(user, pagination);
   }
+
+  @Get('sensors')
+  getSensors(@ActiveUser() user: ActiveUserData, @GetPagination() pagination: IPagination) {
+    return this.userService.getSensors(user, pagination);
+  }
 }
 

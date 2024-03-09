@@ -3,6 +3,7 @@ import { GenderType, Role } from "src/common/enums";
 import { BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Contract } from "./contracts.entity";
 import { ContractsUserUsers } from "./contracts-user-users.entity";
+import { Sensor } from "./sensor.entity";
 
 @Entity('users')
 @Index(["firstName", "lastName"])
@@ -61,6 +62,9 @@ export class User extends BaseEntity {
 
     @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user, { eager: true })
     public contracts: Contract[];
+
+    @OneToMany(() => Sensor, sensor => sensor.user, { eager: true })
+    public sensors: Sensor[];
 
     @CreateDateColumn()
     public createdAt: Date;

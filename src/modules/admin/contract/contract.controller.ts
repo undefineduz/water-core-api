@@ -9,7 +9,6 @@ import { IPagination } from 'src/common/interfaces';
 export class ContractController {
   constructor(private readonly contractService: ContractService) { }
 
-
   @Post()
   create(@Body() createContractDto: CreateContractDto) {
     return this.contractService.create(createContractDto);

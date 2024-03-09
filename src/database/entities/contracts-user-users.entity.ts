@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Contract } from "./contracts.entity";
 import { ContractStatus } from "src/common/enums";
@@ -40,6 +40,9 @@ export class ContractsUserUsers {
     })
     public status: ContractStatus;
 
-    @CreateDateColumn()
-    public createdAt: Date;
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: Date;
+
+    @UpdateDateColumn({ type: 'timestamp' })
+    updatedAt?: Date;
 }

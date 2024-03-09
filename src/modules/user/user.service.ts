@@ -61,4 +61,8 @@ export class UserService {
   public async getVotedContracts({ sub }: ActiveUserData, pagination: IPagination) {
     return await this.contractsUserUsersRepository.getAllWithPaginationByUserId(sub, pagination);
   }
+
+  public async getSensors({ sub }: ActiveUserData, pagination: IPagination) {
+    return await this.usersRepository.getSensors(sub, pagination);
+  }
 }
