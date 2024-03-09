@@ -21,7 +21,8 @@ export class AuthService {
       throw new UnauthorizedException('Password does not match');
     }
 
-    return await this.tokenService.generateTokens(user);
+    const tokens = await this.tokenService.generateTokens(user);
+    return { ...tokens, role: user.role };
   }
 
   public async refreshTokens(refreshToken: RefreshTokenDto) {
