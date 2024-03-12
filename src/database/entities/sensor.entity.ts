@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
+import { Consumption } from "./consumption.entity";
 
 @Entity('sensors')
 export class Sensor {
@@ -22,6 +23,9 @@ export class Sensor {
 
     @Column({ nullable: true })
     public userId?: number;
+
+    @OneToMany(() => Consumption, (consumption) => consumption.imei)
+    public consumptions: Consumption[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

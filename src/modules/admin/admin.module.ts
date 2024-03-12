@@ -5,8 +5,9 @@ import { ContractModule } from './contract/contract.module';
 import { SensorsModule } from './sensors/sensors.module';
 import { RegionModule } from './region/region.module';
 import { StateModule } from './state/state.module';
+import { CoordinationsModule } from './coordinations/coordinations.module';
 
 @Module({
-  imports: [UsersModule, LocalFilesModule, ContractModule, SensorsModule, RegionModule, StateModule],
+  imports: [UsersModule, LocalFilesModule, ContractModule, SensorsModule, RegionModule, StateModule, CoordinationsModule],
 })
 export class AdminModule { }

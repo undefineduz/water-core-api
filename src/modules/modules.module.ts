@@ -6,8 +6,9 @@ import { TokenModule } from './token/token.module';
 import { AdminModule } from './admin/admin.module';
 import { ContractModule } from './contract/contract.module';
 import { ClientModule } from './client/client.module';
+import { ConsumptionModule } from './consumption/consumption.module';
 
 @Module({
-  imports: [UserModule, AuthModule, HashingModule, TokenModule, AdminModule, ContractModule, ClientModule]
+  imports: [UserModule, AuthModule, HashingModule, TokenModule, AdminModule, ContractModule, ClientModule, ConsumptionModule]
 })
 export class ModulesModule { }
