@@ -65,4 +65,8 @@ export class UserService {
   public async getSensors({ sub }: ActiveUserData, pagination: IPagination) {
     return await this.usersRepository.getSensors(sub, pagination);
   }
+
+  public async getConsumption({ sub }: ActiveUserData) {
+    return await this.usersRepository.getConsumption(sub);
+  }
 }

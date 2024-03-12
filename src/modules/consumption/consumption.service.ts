@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateConsumptionDto } from './dto/create-consumption.dto';
 import { UpdateConsumptionDto } from './dto/update-consumption.dto';
+import { ConsumptionRepository } from './consumption.repository';
 
 @Injectable()
 export class ConsumptionService {
-  create(createConsumptionDto: CreateConsumptionDto) {
-    return 'This action adds a new consumption';
+  constructor(
+    private readonly consumptionRepository: ConsumptionRepository
+  ) { }
+
+  public async create(createConsumptionDto: CreateConsumptionDto) {
+    return await this.consumptionRepository.createConsumption(createConsumptionDto);
   }
 
   findAll() {

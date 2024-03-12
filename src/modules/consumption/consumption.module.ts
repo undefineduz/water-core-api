@@ -3,6 +3,8 @@ import { ConsumptionService } from './consumption.service';
 import { ConsumptionController } from './consumption.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Consumption } from 'src/database/entities';
+import { ConsumptionRepository } from './consumption.repository';
+import { CoordinationsRepository } from '../admin/coordinations/coordinations.repository';
 
 @Module({
   imports: [
@@ -11,6 +13,6 @@ import { Consumption } from 'src/database/entities';
     ]),
   ],
   controllers: [ConsumptionController],
-  providers: [ConsumptionService],
+  providers: [ConsumptionService, ConsumptionRepository, CoordinationsRepository],
 })
 export class ConsumptionModule { }

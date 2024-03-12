@@ -1,12 +1,10 @@
-import { IsBoolean, IsLatitude, IsLongitude, IsNumber } from "class-validator";
+import { IsBoolean, IsLatitude, IsLongitude, IsNumber, IsNumberString, IsOptional } from "class-validator";
 
 export class CreateConsumptionDto {
     @IsNumber()
     public h: number;
 
-    @IsNumber()
-    public q: number;
-
+    @IsOptional()
     @IsNumber()
     public velocity: number;
 
@@ -25,6 +23,6 @@ export class CreateConsumptionDto {
     @IsBoolean()
     public charging: boolean;
 
-    @IsNumber()
-    public ime: number;
+    @IsNumberString()
+    public imei: string;
 }

@@ -34,5 +34,10 @@ export class UserController {
   getSensors(@ActiveUser() user: ActiveUserData, @GetPagination() pagination: IPagination) {
     return this.userService.getSensors(user, pagination);
   }
+
+  @Get('consumption')
+  getConsumption(@ActiveUser() user: ActiveUserData) {
+    return this.userService.getConsumption(user);
+  }
 }
 

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { IPagination } from 'src/common/interfaces';
 import { Coordinations } from 'src/database/entities';
-import { DataSource, EntityPropertyNotFoundError, QueryFailedError, Repository } from 'typeorm';
+import { DataSource, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, QueryFailedError, Repository } from 'typeorm';
 
 @Injectable()
 export class CoordinationsRepository extends Repository<Coordinations> {
@@ -36,5 +36,29 @@ export class CoordinationsRepository extends Repository<Coordinations> {
             console.error(error);
             throw new InternalServerErrorException('Internal Server Error');
         }
+    }
+
+    async calculateQ(h: number) {
+        const isCheckCoordinationEqualH = await this.findOneBy({ h });
+        if (h == isCheckCoordinationEqualH?.h) {
+            return isCheckCoordinationEqualH.q;
+        }
+
+        const coordinationsLess = await this.findOneBy({
+            h: LessThan(h)
+        });
+
+        const coordinationMore = await this.findOneBy({
+            h: MoreThan(h)
+        });
+
+        const q1 = coordinationsLess?.q;
+        const h1 = coordinationsLess?.h;
+
+        const q2 = coordinationMore?.q;
+        const h2 = coordinationMore?.h;
+
+        const q = q1 + (q2 - q1) * (h - h1) / (h2 - h1)
+        return q;
     }
 } 

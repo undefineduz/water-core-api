@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Sensor } from "./sensor.entity";
 
 @Entity('consumptions')
@@ -15,9 +15,15 @@ export class Consumption {
     public q: number;
 
     @Column({
-        type: 'float',
+        nullable: true
     })
-    public velocity: number;
+    public s: number;
+
+    @Column({
+        type: 'float',
+        nullable: true
+    })
+    public velocity?: number;
 
     @Column({
         type: 'float',
@@ -40,7 +46,17 @@ export class Consumption {
     })
     public charging: boolean;
 
+    @Column({
+        type: 'float',
+        nullable: true,
+    })
+    public width?: number;
+
     @ManyToOne(() => Sensor, (sensor) => sensor.imei, { nullable: false })
+    @JoinColumn({ name: 'imei', referencedColumnName: 'imei', foreignKeyConstraintName: 'imei' })
+    public sensor: Sensor;
+
+    @Column({ nullable: false, type: 'string' })
     public imei: string;
 
     @CreateDateColumn()

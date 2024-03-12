@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Consumption } from "./consumption.entity";
 
 @Entity('sensors')
+@Unique('UNIQUE_IMEI', ['imei'])
 export class Sensor {
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,7 +11,7 @@ export class Sensor {
     @Column()
     name: string;
 
-    @Column({ unique: true, type: 'varchar', length: 16 })
+    @Column({ type: 'varchar', length: 16 })
     imei: string;
 
     @ManyToOne(
@@ -24,7 +25,7 @@ export class Sensor {
     @Column({ nullable: true })
     public userId?: number;
 
-    @OneToMany(() => Consumption, (consumption) => consumption.imei)
+    @OneToMany(() => Consumption, (consumption) => consumption.sensor)
     public consumptions: Consumption[];
 
     @CreateDateColumn({ type: 'timestamp' })
