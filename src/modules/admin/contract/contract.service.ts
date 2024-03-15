@@ -12,7 +12,9 @@ export class ContractService {
   ) { }
   public async create(createContractDto: CreateContractDto) {
     try {
-      return await this.contractRepository.save(createContractDto);
+      return await this.contractRepository.save({
+        ...createContractDto  
+      });
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException(error.message);

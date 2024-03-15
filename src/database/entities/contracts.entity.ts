@@ -22,6 +22,10 @@ export class Contract {
     @Column({ nullable: true })
     public fileId?: number;
 
+    @ManyToMany(() => User, { cascade: true })
+    @JoinColumn({ name: 'userId' })
+    public users: User[]
+
     @CreateDateColumn()
     public createdAt: Date;
 } 

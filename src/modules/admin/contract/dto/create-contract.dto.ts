@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsArray, IsNumber, IsString } from "class-validator";
 
 export class CreateContractDto {
@@ -7,4 +8,8 @@ export class CreateContractDto {
 
     @IsNumber()
     public fileId: number;
+
+    @Type(() => Number)
+    @IsNumber({}, { each: true })
+    public userIds: number[];
 }

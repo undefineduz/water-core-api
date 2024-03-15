@@ -3,7 +3,7 @@ import { User } from "./user.entity";
 import { Contract } from "./contracts.entity";
 import { ContractStatus } from "src/common/enums";
 
-@Entity()
+@Entity('contracts_users_users')
 @Unique(['userId', 'contractId'])
 export class ContractsUserUsers {
     @PrimaryGeneratedColumn()
