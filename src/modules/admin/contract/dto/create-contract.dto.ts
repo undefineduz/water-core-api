@@ -11,5 +11,5 @@ export class CreateContractDto {
 
     @Type(() => Number)
     @IsNumber({}, { each: true })
-    public userIds: number[];
+    public userId: number[];
 }
