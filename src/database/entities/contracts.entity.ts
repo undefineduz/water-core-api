@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LocalFile } from "./file.entity";
 import { User } from "./user.entity";
+import { ContractsUserUsers } from "./contracts-user-users.entity";
 
 @Entity('contracts')
 export class Contract {
@@ -22,9 +23,8 @@ export class Contract {
     @Column({ nullable: true })
     public fileId?: number;
 
-    @ManyToMany(() => User, { cascade: true })
-    @JoinColumn({ name: 'userId' })
-    public users: User[]
+    @OneToMany(() => ContractsUserUsers, (contractsUserUsers) => contractsUserUsers.contract, { cascade: true })
+    public contractsUsers: ContractsUserUsers[]
 
     @CreateDateColumn()
     public createdAt: Date;

@@ -46,4 +46,8 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
+  public async getContracts(id: number) {
+    return await this.usersRepository.getContracts(id);
+  }
+
 }

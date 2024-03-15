@@ -12,7 +12,9 @@ export class ContractsUserUsers {
     @JoinColumn({ name: 'userId' })
     @ManyToOne(
         () => User,
+        (user) => user.contractsUsers,
         {
+            onDelete: 'CASCADE',
             nullable: true
         }
     )
@@ -24,11 +26,13 @@ export class ContractsUserUsers {
     @JoinColumn({ name: 'contractId' })
     @ManyToOne(
         () => Contract,
+        (contract) => contract.contractsUsers,
         {
+            onDelete: 'CASCADE',
             nullable: true
         }
     )
-    public contract?: User;
+    public contract?: Contract;
 
     @Column({ nullable: true })
     public contractId?: number;

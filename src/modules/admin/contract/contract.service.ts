@@ -4,17 +4,19 @@ import { UpdateContractDto } from './dto/update-contract.dto';
 import { ContractRepository } from './contract.repository';
 import { QueryFailedError } from 'typeorm';
 import { IPagination } from 'src/common/interfaces';
+import { ContractUserUsersRepository } from 'src/modules/user/repositories/contracts-user-users.repository';
 
 @Injectable()
 export class ContractService {
   constructor(
-    private readonly contractRepository: ContractRepository
+    private readonly contractRepository: ContractRepository,
+    private readonly contractUserUsersRepository: ContractUserUsersRepository
   ) { }
   public async create(createContractDto: CreateContractDto) {
     try {
-      return await this.contractRepository.save({
-        ...createContractDto  
-      });
+      const contract = await this.contractRepository.save(createContractDto);
+      await this.contractUserUsersRepository.save(createContractDto.userId.map(userId => ({ userId, contractId: contract.id })));
+      return contract;
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException(error.message);
@@ -28,8 +30,15 @@ export class ContractService {
     return await this.contractRepository.getAllWithPagination(pagination);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contract`;
+  public async findOne(id: number) {
+    return await this.contractRepository.findOne({
+      relations: {
+        contractsUsers: true
+      },
+      where: {
+        id
+      }
+    })
   }
 
   update(id: number, updateContractDto: UpdateContractDto) {

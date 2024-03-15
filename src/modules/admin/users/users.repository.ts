@@ -76,4 +76,35 @@ export class UsersRepository extends Repository<User> {
             throw new InternalServerErrorException();
         }
     }
+
+    public async getContracts(id: number) {
+        return await this.findOne({
+            select: {
+                id: true,
+                contractsUsers: {
+                    id: true,
+                    status: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    contract: {
+                        id: true,
+                        title: true,
+                        createdAt: true,
+                        file: {
+                            id: true,
+                            filename: true
+                        }
+                    }
+                }
+            },
+            relations: {
+                contractsUsers: {
+                    contract: {
+                        file: true
+                    }
+                }
+            },
+            where: { id },
+        })
+    }
 } 

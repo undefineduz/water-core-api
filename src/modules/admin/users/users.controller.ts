@@ -34,4 +34,8 @@ export class UsersController {
     return this.usersService.delete(id);
   }
 
+  @Get('/:id/contracts')
+  getContracts(@Param('id', new ParseIntPipe()) id: number) {
+    return this.usersService.getContracts(id);
+  }
 }

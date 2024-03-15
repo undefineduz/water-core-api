@@ -43,7 +43,7 @@ export class UserRepository extends Repository<User> {
         const user = await this.findOne({
             where: { id: UserId },
             relations: {
-                contracts: true
+                contractsUsers: true
             }
         });
         return user;

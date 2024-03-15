@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { GenderType, Role } from "src/common/enums";
-import { BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Contract } from "./contracts.entity";
 import { ContractsUserUsers } from "./contracts-user-users.entity";
 import { Sensor } from "./sensor.entity";
@@ -67,8 +67,8 @@ export class User extends BaseEntity {
     @Column()
     public regionId: number;
 
-    @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user)
-    public contracts: Contract[];
+    @OneToMany(type => ContractsUserUsers, contractsUserUsers => contractsUserUsers.user, { cascade: true })
+    public contractsUsers: ContractsUserUsers[];
 
     @OneToMany(() => Sensor, sensor => sensor.user)
     public sensors: Sensor[];
