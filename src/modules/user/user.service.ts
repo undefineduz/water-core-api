@@ -40,7 +40,7 @@ export class UserService {
     return await this.contractRepository.getAllWithPaginationByUserId(sub, pagination);
   }
 
-  public async setContractStatusByUserId({ sub }: ActiveUserData, { status, id }: ContractStatusDto) {
+  public async setContractStatusByUserId({ sub }: ActiveUserData, { status, id, report }: ContractStatusDto) {
     const isExistContract = await this.contractRepository.isExist(id);
     if (!isExistContract) {
       throw new NotFoundException('contract not found by ' + id);
@@ -49,7 +49,8 @@ export class UserService {
       return await this.contractsUserUsersRepository.save({
         userId: sub,
         contractId: id,
-        status: status
+        status: status,
+        report
       });
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {

@@ -3,11 +3,14 @@ import { User } from "./user.entity";
 import { Contract } from "./contracts.entity";
 import { ContractStatus } from "src/common/enums";
 
-@Entity('contracts_users_users')
+@Entity('contracts_user_users')
 @Unique(['userId', 'contractId'])
 export class ContractsUserUsers {
     @PrimaryGeneratedColumn()
     public id: number;
+
+    @Column({ nullable: true })
+    public report?: string;
 
     @JoinColumn({ name: 'userId' })
     @ManyToOne(
@@ -49,4 +52,5 @@ export class ContractsUserUsers {
 
     @UpdateDateColumn({ type: 'timestamp' })
     updatedAt?: Date;
+  file: any;
 }

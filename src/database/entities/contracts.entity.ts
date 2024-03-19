@@ -28,4 +28,5 @@ export class Contract {
 
     @CreateDateColumn()
     public createdAt: Date;
+  filename: any;
 } 

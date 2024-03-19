@@ -1,13 +1,15 @@
-import { IsEnum, IsNumber } from "class-validator";
-import { Exists } from "src/common/decorators/validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from "class-validator";
 import { ContractStatus } from "src/common/enums";
-import { Contract } from "src/database/entities";
 
 export class ContractStatusDto {
     @IsNumber()
-    // @Exists(Contract, 'id')
     public id: number;
 
     @IsEnum(ContractStatus)
     public status: ContractStatus;
+
+    @ValidateIf(o => o.status === ContractStatus.REJECTED)
+    @IsNotEmpty()
+    @IsString()
+    public report: string;
 } 

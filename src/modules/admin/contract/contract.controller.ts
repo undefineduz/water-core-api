@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { ContractService } from './contract.service';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
 import { GetPagination } from 'src/common/decorators';
 import { IPagination } from 'src/common/interfaces';
+import { GetVoitedDto } from './dto/get-voited.dto';
 
 @Controller('admin/contract')
 export class ContractController {
@@ -19,13 +20,19 @@ export class ContractController {
     return this.contractService.findAll(pagination);
   }
 
+
+  @Get('voited')
+  getVoited(@GetPagination() pagination: IPagination, @Query() query: GetVoitedDto) {
+    return this.contractService.getVoited(pagination, query);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.contractService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContractDto: UpdateContractDto) {
+  update(@Param('id', new ParseIntPipe()) id: number, @Body() updateContractDto: UpdateContractDto) {
     return this.contractService.update(+id, updateContractDto);
   }
 

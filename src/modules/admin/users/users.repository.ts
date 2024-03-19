@@ -90,7 +90,7 @@ export class UsersRepository extends Repository<User> {
                         id: true,
                         title: true,
                         createdAt: true,
-                        file: {
+                        file: { 
                             id: true,
                             filename: true
                         }
