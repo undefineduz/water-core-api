@@ -78,4 +78,9 @@ export class SensorsService {
       console.error(error);
     }
   }
+
+  public async getFermersSensors (id: number, pagination: IPagination) {
+    const sensors = await this.sensorsRepository.getSensorsByUserId(id, pagination);
+    return sensors;
+  }
 }

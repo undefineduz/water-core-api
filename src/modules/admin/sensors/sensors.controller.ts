@@ -20,6 +20,11 @@ export class SensorsController {
     return this.sensorsService.findAll(pagination);
   }
 
+  @Get('fermer/:id')
+  getFermersSensors(@Param('id', new ParseIntPipe()) id: number, @GetPagination() pagination: IPagination) {
+    return this.sensorsService.getFermersSensors(id, pagination);
+  }
+
   @Get(':id')
   findOne(@Param('id', new ParseIntPipe()) id: number) {
     return this.sensorsService.findOne(id);

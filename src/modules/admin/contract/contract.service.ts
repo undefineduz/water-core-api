@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateContractDto } from './dto/update-contract.dto';
 import { ContractRepository } from './contract.repository';
@@ -106,6 +106,8 @@ export class ContractService {
     }
   }
 
-
+  public  async  getFermersContracts(id: number, pagination: IPagination) {
+   return this.contractUserUsersRepository.getSensorsByUserId(id, pagination);
+  }
 
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { IPagination } from "src/common/interfaces";
 import { ContractsUserUsers } from "src/database/entities";
 import { DataSource, EntityPropertyNotFoundError, QueryFailedError, Repository } from "typeorm";
@@ -50,6 +50,36 @@ export class ContractUserUsersRepository extends Repository<ContractsUserUsers> 
 
     public async getSensors(userId: number, { limit, skip, sort, search }: IPagination) {
         const contractQb = this.createQueryBuilder('contractsUserUsers')
+    }
+
+    public async getSensorsByUserId(userId: number, { limit, skip, sort, search }: IPagination) {
+        try {
+            const contractQb = this.createQueryBuilder('contractUser')
+              .innerJoinAndSelect('contractUser.contract', 'contract')
+              .where('contractUser.userId = :userId', { userId })
+
+            if (search) {
+                const where = search && Object.keys(search).map(key => `${key} LIKE '%${search[key]}%'`).join(' AND ');
+                contractQb.andWhere(where);
+            }
+
+            if (sort) {
+                contractQb.orderBy(sort)
+            }
+            contractQb
+              .skip(skip)
+              .take(limit);
+
+            const data = await contractQb.getMany();
+            const count = await contractQb.getCount();
+            return { data, count };
+        } catch (error) {
+            if (error instanceof QueryFailedError) {
+                throw new BadRequestException(error.message);
+            }
+            console.error(error);
+            throw new InternalServerErrorException(error);
+        }
     }
 
 }

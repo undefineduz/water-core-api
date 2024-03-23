@@ -20,6 +20,10 @@ export class ContractController {
     return this.contractService.findAll(pagination);
   }
 
+  @Get('fermer/:id')
+  getFermersContracts(@Param('id', new ParseIntPipe()) id: number, @GetPagination() pagination: IPagination) {
+    return this.contractService.getFermersContracts(+id, pagination);
+  }
 
   @Get('voited')
   getVoited(@GetPagination() pagination: IPagination, @Query() query: GetVoitedDto) {
