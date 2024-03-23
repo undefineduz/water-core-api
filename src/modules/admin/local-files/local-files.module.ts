@@ -13,7 +13,7 @@ import { diskStorage } from 'multer';
     TypeOrmModule.forFeature([LocalFile]),
     MulterModule.register({
       storage: diskStorage({
-        destination: './storage/files',
+        destination: '/var/www/storage/files',
         filename(req, file, callback) {
           // Generating a 32 random chars long string
           const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');

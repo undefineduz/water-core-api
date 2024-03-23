@@ -1,3 +1,3 @@
-const baseUrl = 'http://localhost:8000';
+export const baseUrl = 'https://smartwaterdegree.uz/storage';
 
 export const asset = (route: string) => `${baseUrl}/${route}`;

@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { baseUrl } from "src/common/helper";
 import { IPagination } from "src/common/interfaces";
 import { ContractsUserUsers } from "src/database/entities";
 import { DataSource, EntityPropertyNotFoundError, QueryFailedError, Repository } from "typeorm";
@@ -18,7 +19,7 @@ export class ContractUserUsersRepository extends Repository<ContractsUserUsers> 
                 .select("contract.id", "id")
                 .addSelect("contract.title", "title")
                 .addSelect("contract.fileId", "fileId")
-                .addSelect("CONCAT('http://localhost:3000/', file.filename)", "file")
+                .addSelect(`CONCAT('${baseUrl}/', file.filename)`, "file")
                 .addSelect("contractsUserUsers.status", "status")
                 .addSelect("contractsUserUsers.report", "report")
                 .addSelect("contract.createdAt", "createdAt")
