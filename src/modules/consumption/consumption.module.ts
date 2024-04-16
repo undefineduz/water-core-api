@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Consumption } from 'src/database/entities';
 import { ConsumptionRepository } from './consumption.repository';
 import { CoordinationsRepository } from '../admin/coordinations/coordinations.repository';
+import { SensorsRepository } from '../admin/sensors/sensors.repository';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { CoordinationsRepository } from '../admin/coordinations/coordinations.re
     ]),
   ],
   controllers: [ConsumptionController],
-  providers: [ConsumptionService, ConsumptionRepository, CoordinationsRepository],
+  providers: [ConsumptionService, ConsumptionRepository, CoordinationsRepository, SensorsRepository],
 })
 export class ConsumptionModule { }

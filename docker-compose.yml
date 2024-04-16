@@ -1,0 +1,53 @@
+services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        volumes:
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+            # - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+        environment:
+            - NGINX_PORT=${NGINX_PORT}
+            - BACKEND_HOST=api
+            - BACKEND_PORT=${SERVER_PORT}
+            - PGADMIN_HOST=pgadmin
+        ports:
+            - ${NGINX_PORT}:${NGINX_PORT}
+
+    mysql:
+        image: mysql:latest
+        restart: always
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --log_bin_trust_function_creators=1
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: waterdb
+        container_name: mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: pma
+        links:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - "8081:80"
+
+    api:
+        build:
+            dockerfile: Dockerfile
+            context: .
+        container_name: api
+        volumes:
+            - .:/usr/src/app
+        ports:
+            - ${SERVER_PORT}:${SERVER_PORT}
+            - 9229:9229
+        env_file:
+            - .env
