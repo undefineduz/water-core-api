@@ -24,7 +24,7 @@ async function bootstrap() {
     })
   );
 
-  // useContainer(AppModule, { fallback: true });
+  // useContainer(AppModule, { fallback: true });  
 
   const config = app.get(ConfigService);
   const server = config.get<ConfigType<typeof ServerConfig>>('server');

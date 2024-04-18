@@ -27,6 +27,12 @@ export class Consumption {
 
     @Column({
         type: 'float',
+        nullable: true
+    })
+    public velocityAverage?: number;
+
+    @Column({
+        type: 'float',
     })
     public temperature: number;
 
