@@ -18,7 +18,7 @@ export class LocalFilesController {
             ],
             errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
         }),
-    ) file: Express.Multer.File) {
+    ) file) {
         return this.localFilesService.saveLocalFileData(file)
     }
 }

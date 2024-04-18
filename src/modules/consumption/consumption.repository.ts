@@ -23,6 +23,7 @@ export class ConsumptionRepository extends Repository<Consumption> {
             throw new NotFoundException(`Sensor with imei ${createConsumptionDto.imei} not found`);
         }
         const q = await this.coordinationsRepository.calculateQ(createConsumptionDto.h);
+        console.log('q:', q);
         try {
             const create = this.create({
                 ...createConsumptionDto,

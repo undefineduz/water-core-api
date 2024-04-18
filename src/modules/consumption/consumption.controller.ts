@@ -2,13 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ConsumptionService } from './consumption.service';
 import { CreateConsumptionDto } from './dto/create-consumption.dto';
 import { UpdateConsumptionDto } from './dto/update-consumption.dto';
+import { Auth } from 'src/common/decorators';
+import { AuthType } from 'src/common/enums';
 
-@Controller('consumption')
+@Auth(AuthType.None)
+@Controller('consumption') 
 export class ConsumptionController {
   constructor(private readonly consumptionService: ConsumptionService) {}
 
   @Post()
-  create(@Body() createConsumptionDto: CreateConsumptionDto) {
+  create(@Body() createConsumptionDto: CreateConsumptionDto) {  
     return this.consumptionService.create(createConsumptionDto);
   }
 

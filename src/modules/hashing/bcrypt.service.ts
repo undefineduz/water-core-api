@@ -27,3 +27,6 @@ export class BcyptService implements HashingService {
         return compare(plainText, encrypted);
     }
 }
+
+const brcyptService = new BcyptService();
+brcyptService.hash("Password123").then(console.log) 
