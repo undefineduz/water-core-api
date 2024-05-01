@@ -1,23 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ConsumptionService } from './consumption.service';
 import { CreateConsumptionDto } from './dto/create-consumption.dto';
 import { UpdateConsumptionDto } from './dto/update-consumption.dto';
-import { Auth } from 'src/common/decorators';
+import { ActiveUser, Auth } from 'src/common/decorators';
 import { AuthType } from 'src/common/enums';
+import { DateIntervalDto } from './dto/date-interval.dto';
+import { ActiveUserData } from 'src/common/interfaces';
 
-@Auth(AuthType.None)
-@Controller('consumption') 
+@Controller('consumption')
 export class ConsumptionController {
-  constructor(private readonly consumptionService: ConsumptionService) {}
+  constructor(private readonly consumptionService: ConsumptionService) { }
 
+  @Auth(AuthType.None)
   @Post()
-  create(@Body() createConsumptionDto: CreateConsumptionDto) {  
+  create(@Body() createConsumptionDto: CreateConsumptionDto) {
     return this.consumptionService.create(createConsumptionDto);
   }
 
-  @Get()
-  findAll() {
-    return this.consumptionService.findAll();
+  @Get('statistic')
+  public findAll(@ActiveUser() user: ActiveUserData, @Query() dateIntervalDto: DateIntervalDto) {
+    return this.consumptionService.findAll(user.sub, dateIntervalDto);
   }
 
   @Get(':id')

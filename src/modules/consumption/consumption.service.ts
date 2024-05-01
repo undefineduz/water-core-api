@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateConsumptionDto } from './dto/create-consumption.dto';
 import { UpdateConsumptionDto } from './dto/update-consumption.dto';
 import { ConsumptionRepository } from './consumption.repository';
+import { DateIntervalDto } from './dto/date-interval.dto';
 
 @Injectable()
 export class ConsumptionService {
@@ -10,11 +11,15 @@ export class ConsumptionService {
   ) { }
 
   public async create(createConsumptionDto: CreateConsumptionDto) {
+    const getNotHours = new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" }).split(' ')[1].split(':')[0];
+    if (Number(getNotHours) >= 0) {
+
+    }
     return await this.consumptionRepository.createConsumption(createConsumptionDto);
   }
 
-  findAll() {
-    return `This action returns all consumption`;
+  public async findAll(userId: number, dateIntervalDto: DateIntervalDto) {
+    return  await this.consumptionRepository.getStatistic(userId, dateIntervalDto);
   }
 
   findOne(id: number) {

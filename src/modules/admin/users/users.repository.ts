@@ -2,6 +2,7 @@ import { ConflictException, Injectable, InternalServerErrorException, Unprocessa
 import { IPagination } from 'src/common/interfaces';
 import { User } from 'src/database/entities';
 import { DataSource, EntityPropertyNotFoundError, Repository } from 'typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersRepository extends Repository<User> {
@@ -60,10 +61,12 @@ export class UsersRepository extends Repository<User> {
         }
     }
 
-    public async updateUser(id: number, data: Partial<User>) {
+    public async updateUser(id: number, data: UpdateUserDto) {
         try {
             console.log(data);
-            return await this.update(id, data);
+            return await this.update(id, {
+                ...data,
+            });
         } catch (error) {
             if (error instanceof EntityPropertyNotFoundError) {
                 throw new UnprocessableEntityException(error.message);
@@ -90,7 +93,7 @@ export class UsersRepository extends Repository<User> {
                         id: true,
                         title: true,
                         createdAt: true,
-                        file: { 
+                        file: {
                             id: true,
                             filename: true
                         }

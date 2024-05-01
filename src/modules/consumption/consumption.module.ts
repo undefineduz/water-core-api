@@ -6,6 +6,7 @@ import { Consumption } from 'src/database/entities';
 import { ConsumptionRepository } from './consumption.repository';
 import { CoordinationsRepository } from '../admin/coordinations/coordinations.repository';
 import { SensorsRepository } from '../admin/sensors/sensors.repository';
+import { TotalConsumptionRepository } from 'src/total-consumption/total-consumption.repository';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { SensorsRepository } from '../admin/sensors/sensors.repository';
     ]),
   ],
   controllers: [ConsumptionController],
-  providers: [ConsumptionService, ConsumptionRepository, CoordinationsRepository, SensorsRepository],
+  providers: [ConsumptionService, ConsumptionRepository, CoordinationsRepository, SensorsRepository, TotalConsumptionRepository],
 })
 export class ConsumptionModule { }

@@ -73,8 +73,22 @@ export class User extends BaseEntity {
     @OneToMany(() => Sensor, sensor => sensor.user)
     public sensors: Sensor[];
 
+    @Column({ nullable: true })
+    public K: number;
+
+    @Column({ nullable: true })
+    public bottom_length: number;
+
+    @Column({ nullable: true })
+    public height: number;
+
+    @Column({ nullable: true })
+    public alpha: number;
+
+    @Column({ nullable: true })
+    public beta: number;
+
     @CreateDateColumn()
     public createdAt: Date;
-
 
 }

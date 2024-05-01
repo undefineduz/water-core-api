@@ -4,6 +4,7 @@ import { GetPagination } from 'src/common/decorators/get-pagination';
 import { IPagination } from 'src/common/interfaces';
 import { CreateUserDto } from './dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CalcParamsDto } from './dto/calc-params.dto';
 
 @Controller('admin/users')
 export class UsersController {
@@ -37,5 +38,10 @@ export class UsersController {
   @Get('/:id/contracts')
   getContracts(@Param('id', new ParseIntPipe()) id: number) {
     return this.usersService.getContracts(id);
+  }
+
+  @Post('/:id/attach/calc/params')
+  attachK(@Param('id', new ParseIntPipe()) id: number, @Body() calcParamsDto: CalcParamsDto) {
+    return this.usersService.attachK(id, calcParamsDto);
   }
 }

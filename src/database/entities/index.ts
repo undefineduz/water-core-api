@@ -8,3 +8,5 @@ export * from './state.entity';
 export * from './region.entity';
 export * from './consumption.entity';
 export * from './coordination.entity';
+export * from './settings.entity'
+export * from './total-consumption.entity'

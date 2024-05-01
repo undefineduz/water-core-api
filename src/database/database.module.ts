@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabseConfig } from 'src/common/configs';
+import { dataSourceOptions } from './data-source';
 
 @Module({
     imports: [
-        TypeOrmModule.forRootAsync(DatabseConfig.asProvider())
+        TypeOrmModule.forRoot(dataSourceOptions)
     ]
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

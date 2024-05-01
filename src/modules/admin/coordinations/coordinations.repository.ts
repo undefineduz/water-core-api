@@ -38,27 +38,31 @@ export class CoordinationsRepository extends Repository<Coordinations> {
         }
     }
 
-    async calculateQ(h: number) {
-        const isCheckCoordinationEqualH = await this.findOneBy({ h });
-        if (h == isCheckCoordinationEqualH?.h) {
+    async calculateQ(measured_distance: number) {
+        const isCheckCoordinationEqualH = await this.findOneBy({ h: measured_distance });
+        if (measured_distance == isCheckCoordinationEqualH?.h) {
             return isCheckCoordinationEqualH.q;
         }
 
         const coordinationsLess = await this.findOneBy({
-            h: LessThan(h)
+            h: LessThan(measured_distance)
         });
 
         const coordinationMore = await this.findOneBy({
-            h: MoreThan(h)
+            h: MoreThan(measured_distance)
         });
 
-        const q1 = coordinationsLess?.q;
-        const h1 = coordinationsLess?.h;
+        const q1 = coordinationsLess?.q ?? 0;
+        const h1 = coordinationsLess?.h ?? 0;
 
-        const q2 = coordinationMore?.q;
-        const h2 = coordinationMore?.h;
+        const q2 = coordinationMore?.q ?? 0;
+        const h2 = coordinationMore?.h ?? 0;
 
-        const q = q1 + (q2 - q1) * (h - h1) / (h2 - h1)
+        console.log('h1:', h1)
+        console.log('h2:', h2)
+
+        const q = q1 + (q2 - q1) * (measured_distance - h1) / (h2 - h1)
+        console.log(q, 'q')
         return q;
     }
 } 

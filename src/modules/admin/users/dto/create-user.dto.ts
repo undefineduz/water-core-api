@@ -1,4 +1,4 @@
-import { IsEnum, IsLatitude, IsLongitude, IsNumber, IsNumberString, IsPassportNumber, IsPhoneNumber, IsString, Matches } from "class-validator";
+import { IsEnum, IsLatitude, IsLongitude, IsNumber, IsNumberString, IsOptional, IsPassportNumber, IsPhoneNumber, IsString, Matches } from "class-validator";
 import { GenderType, PassportSeries } from "src/common/enums";
 
 export class CreateUserDto {
@@ -35,5 +35,17 @@ export class CreateUserDto {
 
     @IsNumber()
     public regionId: number;
+
+    @IsNumber()
+    public bottom_length: number;
+
+    @IsNumber()
+    public height: number;
+
+    @IsNumber()
+    public alpha: number;
+
+    @IsNumber()
+    public beta: number;
 
 }

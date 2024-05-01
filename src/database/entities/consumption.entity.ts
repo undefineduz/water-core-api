@@ -9,7 +9,10 @@ export class Consumption {
     @Column({
         type: 'float',
     })
-    public h: number;
+    public measured_distance: number;
+
+    @Column()
+    public q_cordinate_table: number;
 
     @Column()
     public q: number;
@@ -17,7 +20,7 @@ export class Consumption {
     @Column({
         nullable: true
     })
-    public s: number;
+    public S: number;
 
     @Column({
         type: 'float',
@@ -30,6 +33,12 @@ export class Consumption {
         nullable: true
     })
     public velocityAverage?: number;
+
+    @Column({
+        type: 'float',
+        nullable: true
+    })
+    public timeDifference?: number;
 
     @Column({
         type: 'float',
@@ -64,6 +73,9 @@ export class Consumption {
 
     @Column({ nullable: false, type: 'string' })
     public imei: string;
+
+    @Column()
+    public userId: number;
 
     @CreateDateColumn()
     public createdAt: Date;

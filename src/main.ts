@@ -6,10 +6,14 @@ import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import { ServerConfig } from './common/configs';
-import { useContainer } from 'class-validator';
+import { setTimeZone } from './set-timezone';
 
+setTimeZone()
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['debug', 'error', 'fatal', 'verbose', 'warn']
+  });
+
 
   app.use(compression({
     level: 5,
@@ -30,6 +34,7 @@ async function bootstrap() {
   const server = config.get<ConfigType<typeof ServerConfig>>('server');
 
   await app.listen(server.port, server.host, async () => {
+    console.log(new Date())
     console.log(`🚀🚀🚀 Application is running on: ${await app.getUrl()} 🚀🚀🚀`);
   });
 }

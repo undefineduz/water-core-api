@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:20
+FROM node:latest
 
 # Set the working directory
 WORKDIR /var/www
@@ -12,6 +12,9 @@ COPY package*.json ./
 
 # Install the dependencies
 RUN npm install
+
+# Set Timezone
+RUN export TZ=Asia/Tashkent
 
 # Copy the rest of the code
 COPY . .

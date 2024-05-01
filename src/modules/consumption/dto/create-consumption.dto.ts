@@ -2,7 +2,7 @@ import { IsBoolean, IsLatitude, IsLongitude, IsNumber, IsNumberString, IsOptiona
 
 export class CreateConsumptionDto {
     @IsNumber()
-    public h: number;
+    public measured_distance: number;
 
     @IsOptional()
     @IsNumber()

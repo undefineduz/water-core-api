@@ -6,6 +6,7 @@ import { IPagination } from 'src/common/interfaces';
 import { HashingService } from 'src/modules/hashing/hashing.service';
 import { EntityNotFoundError } from 'typeorm';
 import { User } from 'src/database/entities';
+import { CalcParamsDto } from './dto/calc-params.dto';
 
 @Injectable()
 export class UsersService {
@@ -22,7 +23,6 @@ export class UsersService {
   public async findOne(id: number): Promise<User> {
     try {
       return await this.usersRepository.getById(id);
-
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         throw new NotFoundException('User not found by id ' + id);
@@ -48,6 +48,16 @@ export class UsersService {
 
   public async getContracts(id: number) {
     return await this.usersRepository.getContracts(id);
+  }
+
+  public async attachK(id: number, calcParamsDto: CalcParamsDto) {
+    const user = await this.usersRepository.getById(id);
+    if (!user) {
+      throw new NotFoundException('User not found by id ' + id);
+    }
+    await this.usersRepository.update(id, {
+      ...calcParamsDto
+    });
   }
 
 }

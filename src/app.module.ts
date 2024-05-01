@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import * as Configs from './common/configs';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/exceptions/filters';
+import { TotalConsumptionModule } from './total-consumption/total-consumption.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { HttpExceptionFilter } from './common/exceptions/filters';
     }),
     ModulesModule,
     DatabaseModule,
+    TotalConsumptionModule,
   ],
   providers: [
     {
